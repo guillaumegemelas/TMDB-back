@@ -2,15 +2,15 @@ const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
 const axios = require("axios");
-// const mongoose = require("mongoose");
+const mongoose = require("mongoose");
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 
 //connection à la DB
-// mongoose.set("strictQuery", false);
-// mongoose.connect(process.env.MONGODB_URI);
+mongoose.set("strictQuery", false);
+mongoose.connect(process.env.MONGODB_URI);
 
 //route test: le serveur fonctionne!
 // app.get("/", (req, res) => {
@@ -27,6 +27,10 @@ app.use(cors());
 //ROUTE Movies
 const moviesRoutes = require("./routes/movies");
 app.use(moviesRoutes);
+
+//ROUTE User
+const userRoutes = require("./routes/user");
+app.use(userRoutes);
 
 app.all("*", (req, res) => {
   res.status(404).json({ message: "This routes doesn't exist" });
