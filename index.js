@@ -12,7 +12,7 @@ app.use(cors());
 mongoose.set("strictQuery", false);
 mongoose.connect(process.env.MONGODB_URI);
 
-//route test: le serveur fonctionne!
+//route test: le serveur fonctionne!----
 // app.get("/", (req, res) => {
 //   res.json({ message: "Hi" });
 // });
