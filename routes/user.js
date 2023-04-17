@@ -4,7 +4,7 @@ const express = require("express");
 // const fileUpload = require("express-fileupload");
 // const convertToBase64 = require("../utils/convertToBase64");
 // const cloudinary = require("cloudinary").v2;
-//----------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------
 
 //packages installés: crypto-js et uid2
 const uid2 = require("uid2");
