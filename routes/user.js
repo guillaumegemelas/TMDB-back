@@ -59,7 +59,7 @@ router.post("/user/signup", async (req, res) => {
       //   picture,
       //--------------------------------------------------------
     });
-    //test envoi image à Cloudinary-----------------------------------------------
+    //test envoi image à Cloudinary-------------------------------------------------
     //  const result = await cloudinary.uploader.upload(
     //     convertToBase64(req.files.picture),
     //     {
@@ -67,7 +67,7 @@ router.post("/user/signup", async (req, res) => {
     //     }
     //   );
     //   newUser.picture = result;
-    //--------------------------------------------------------
+    //----------------------------------------------------------
 
     //enregistrement du nouveau user en BDD
     await newUser.save();
