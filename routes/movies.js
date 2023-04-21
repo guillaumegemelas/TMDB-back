@@ -6,10 +6,15 @@ const axios = require("axios");
 
 router.get("/", async (req, res) => {
   const apiKey = process.env.YOUR_API_KEY;
+  const { page } = req.query;
+
+  if (!page) {
+    page = 1;
+  }
 
   try {
     const response = await axios.get(
-      `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}`
+      `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&page=${page}`
     );
     console.log(response.data);
     res.status(200).json(response.data);
@@ -50,6 +55,28 @@ router.get("/movie/:id/similar", async (req, res) => {
     );
 
     console.log(response.data, "response similar movies-----");
+    res.status(200).json(response.data);
+  } catch (error) {
+    res.status(400).json(error.message);
+  }
+});
+
+//quatrième route pour upcoming movie
+
+router.get("/movie/upcoming", async (req, res) => {
+  // const { page } = req.query;
+  const apiKey = process.env.YOUR_API_KEY;
+
+  // if (!page) {
+  //   page = 1;
+  // }
+
+  try {
+    const response = await axios.get(
+      `https://api.themoviedb.org/3/movie/upcoming?api_key=${apiKey}`
+    );
+
+    console.log(response.data, "response upcoming movies-----");
     res.status(200).json(response.data);
   } catch (error) {
     res.status(400).json(error.message);
