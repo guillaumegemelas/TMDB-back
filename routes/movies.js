@@ -63,17 +63,38 @@ router.get("/movie/:id/similar", async (req, res) => {
 
 //quatrième route pour upcoming movie
 
-router.get("/movie/upcoming", async (req, res) => {
-  // const { page } = req.query;
+router.get("/upcoming", async (req, res) => {
+  let { page } = req.query;
   const apiKey = process.env.YOUR_API_KEY;
 
-  // if (!page) {
-  //   page = 1;
-  // }
+  if (!page) {
+    page = 1;
+  }
 
   try {
     const response = await axios.get(
-      `https://api.themoviedb.org/3/movie/upcoming?api_key=${apiKey}`
+      `https://api.themoviedb.org/3/movie/upcoming?api_key=${apiKey}&page=${page}`
+    );
+
+    console.log(response.data, "response upcoming movies-----");
+    res.status(200).json(response.data);
+  } catch (error) {
+    res.status(400).json(error.message);
+  }
+});
+//cinquième route pour upcoming movie
+
+router.get("/popular", async (req, res) => {
+  let { page } = req.query;
+  const apiKey = process.env.YOUR_API_KEY;
+
+  if (!page) {
+    page = 1;
+  }
+
+  try {
+    const response = await axios.get(
+      `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&page=${page}`
     );
 
     console.log(response.data, "response upcoming movies-----");
