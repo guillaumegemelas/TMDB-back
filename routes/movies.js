@@ -82,6 +82,7 @@ router.get("/upcoming", async (req, res) => {
     res.status(400).json(error.message);
   }
 });
+
 //cinquième route pour upcoming movie
 
 router.get("/popular", async (req, res) => {
@@ -95,6 +96,27 @@ router.get("/popular", async (req, res) => {
   try {
     const response = await axios.get(
       `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&page=${page}`
+    );
+
+    console.log(response.data, "response upcoming movies-----");
+    res.status(200).json(response.data);
+  } catch (error) {
+    res.status(400).json(error.message);
+  }
+});
+
+//sixième route pour searchbar
+router.get("/search", async (req, res) => {
+  let { page, query } = req.query;
+  const apiKey = process.env.YOUR_API_KEY;
+
+  if (!page) {
+    page = 1;
+  }
+
+  try {
+    const response = await axios.get(
+      `https://api.themoviedb.org/3/search/movie?query=${query}&api_key=${apiKey}&page=${page}`
     );
 
     console.log(response.data, "response upcoming movies-----");
