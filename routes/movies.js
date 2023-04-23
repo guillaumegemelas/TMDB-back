@@ -42,6 +42,68 @@ router.get("/movie/:id", async (req, res) => {
   }
 });
 
+//test route average.desc
+router.get("/averagedesc", async (req, res) => {
+  const apiKey = process.env.YOUR_API_KEY;
+  let { page } = req.query;
+  let { average } = req.query;
+  average = "vote_average.desc";
+
+  if (!page) {
+    page = 1;
+  }
+
+  try {
+    const response = await axios.get(
+      `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&page=${page}&sort_by=${average}`
+    );
+    console.log(response.data);
+    res.status(200).json(response.data);
+  } catch (error) {
+    res.status(400).json(error.message);
+  }
+});
+//test route average.asc
+router.get("/averageasc", async (req, res) => {
+  const apiKey = process.env.YOUR_API_KEY;
+  let { page } = req.query;
+  let { average } = req.query;
+  average = "vote_average.asc";
+
+  if (!page) {
+    page = 1;
+  }
+
+  try {
+    const response = await axios.get(
+      `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&page=${page}&sort_by=${average}`
+    );
+    console.log(response.data);
+    res.status(200).json(response.data);
+  } catch (error) {
+    res.status(400).json(error.message);
+  }
+});
+
+//seconde route movie par Id: fonctionne niquel!
+
+router.get("/movie/:id", async (req, res) => {
+  const id = req.params.id;
+  console.log(id);
+  const apiKey = process.env.YOUR_API_KEY;
+
+  try {
+    const response = await axios.get(
+      `https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}`
+    );
+
+    console.log(response.data);
+    res.status(200).json(response.data);
+  } catch (error) {
+    res.status(400).json(error.message);
+  }
+});
+
 //troisième route pour similar movie
 
 router.get("/movie/:id/similar", async (req, res) => {
