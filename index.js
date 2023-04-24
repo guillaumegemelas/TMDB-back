@@ -36,6 +36,10 @@ app.use(userRoutes);
 const favouriteRoutes = require("./routes/favorites");
 app.use(favouriteRoutes);
 
+//ROUTE Cast
+const castRoutes = require("./routes/cast");
+app.use(castRoutes);
+
 app.all("*", (req, res) => {
   res.status(404).json({ message: "This routes doesn't exist" });
 });
