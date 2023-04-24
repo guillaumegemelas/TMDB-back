@@ -41,6 +41,43 @@ router.get("/movie/:id", async (req, res) => {
     res.status(400).json(error.message);
   }
 });
+//seconde route bis movie par Id: fonctionne niquel!
+
+router.get("/movie/:id/images", async (req, res) => {
+  const id = req.params.id;
+  console.log(id);
+  const apiKey = process.env.YOUR_API_KEY;
+
+  try {
+    const response = await axios.get(
+      `https://api.themoviedb.org/3/movie/${id}/images?api_key=${apiKey}`
+    );
+
+    console.log(response.data);
+    res.status(200).json(response.data);
+  } catch (error) {
+    res.status(400).json(error.message);
+  }
+});
+
+//seconde route ter movie par Id: pour casting
+
+router.get("/movie/:id/credits", async (req, res) => {
+  const id = req.params.id;
+  console.log(id);
+  const apiKey = process.env.YOUR_API_KEY;
+
+  try {
+    const response = await axios.get(
+      `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${apiKey}`
+    );
+
+    console.log(response.data);
+    res.status(200).json(response.data);
+  } catch (error) {
+    res.status(400).json(error.message);
+  }
+});
 
 //test route average.desc
 router.get("/averagedesc", async (req, res) => {

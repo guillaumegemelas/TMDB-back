@@ -32,6 +32,10 @@ app.use(moviesRoutes);
 const userRoutes = require("./routes/user");
 app.use(userRoutes);
 
+//ROUTE Favourites
+const favouriteRoutes = require("./routes/favorites");
+app.use(favouriteRoutes);
+
 app.all("*", (req, res) => {
   res.status(404).json({ message: "This routes doesn't exist" });
 });
