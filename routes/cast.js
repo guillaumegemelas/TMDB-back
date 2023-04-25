@@ -40,4 +40,25 @@ router.get("/cast/:id/movie", async (req, res) => {
   }
 });
 
+//route pour les personnages populaires sur TMDB
+router.get("/person/popular", async (req, res) => {
+  const apiKey = process.env.YOUR_API_KEY;
+  const { page } = req.query;
+
+  if (!page) {
+    page = 1;
+  }
+
+  try {
+    const response = await axios.get(
+      `https://api.themoviedb.org/3/person/popular?api_key=${apiKey}&page=${page}`
+    );
+
+    console.log(response.data);
+    res.status(200).json(response.data);
+  } catch (error) {
+    res.status(400).json(error.message);
+  }
+});
+
 module.exports = router;
