@@ -14,7 +14,7 @@ router.get("/", async (req, res) => {
 
   try {
     const response = await axios.get(
-      `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&page=${page}`
+      `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&page=${page}&language=fr`
     );
     console.log(response.data);
     res.status(200).json(response.data);
@@ -32,7 +32,7 @@ router.get("/movie/:id", async (req, res) => {
 
   try {
     const response = await axios.get(
-      `https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}`
+      `https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&language=fr`
     );
 
     console.log(response.data);
@@ -111,7 +111,7 @@ router.get("/averagedesc", async (req, res) => {
 
   try {
     const response = await axios.get(
-      `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&page=${page}&sort_by=${average}`
+      `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&page=${page}&sort_by=${average}&language=fr`
     );
     console.log(response.data);
     res.status(200).json(response.data);
@@ -132,7 +132,7 @@ router.get("/averageasc", async (req, res) => {
 
   try {
     const response = await axios.get(
-      `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&page=${page}&sort_by=${average}`
+      `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&page=${page}&sort_by=${average}&language=fr`
     );
     console.log(response.data);
     res.status(200).json(response.data);
@@ -150,7 +150,7 @@ router.get("/movie/:id", async (req, res) => {
 
   try {
     const response = await axios.get(
-      `https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}`
+      `https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&language=fr`
     );
 
     console.log(response.data);
@@ -191,7 +191,7 @@ router.get("/upcoming", async (req, res) => {
 
   try {
     const response = await axios.get(
-      `https://api.themoviedb.org/3/movie/upcoming?api_key=${apiKey}&page=${page}`
+      `https://api.themoviedb.org/3/movie/upcoming?api_key=${apiKey}&page=${page}&language=fr`
     );
 
     console.log(response.data, "response upcoming movies-----");
