@@ -1,9 +1,9 @@
 const express = require("express");
 
 //test ajout fileUpload() pour  comprendre mécanisme Coulinary----------------------------
-// const fileUpload = require("express-fileupload");
-// const convertToBase64 = require("../utils/convertToBase64");
-// const cloudinary = require("cloudinary").v2;
+const fileUpload = require("express-fileupload");
+const convertToBase64 = require("../utils/convertToBase64");
+const cloudinary = require("cloudinary").v2;
 //--------------------------------------------------------------------------------------------
 
 //packages installés: crypto-js et uid2
@@ -15,10 +15,10 @@ const router = express.Router();
 const User = require("../models/User");
 
 //Route1 signup: fonctionne avec Postman
-router.post("/user/signup", async (req, res) => {
+router.post("/user/signup", fileUpload(), async (req, res) => {
   try {
     const { username, email, password, passwordConf } = req.body;
-    // const { picture } = req.files.picture;
+    const { picture } = req.files.picture;
 
     //si un parmaètre est manquant, message d'erreur
     if (!username || !email || !password) {
@@ -56,17 +56,17 @@ router.post("/user/signup", async (req, res) => {
       hash,
       salt,
       //ajout avatar pour image Cloudinary----------------------------------------
-      //   picture,
+      picture,
       //--------------------------------------------------------
     });
     //test envoi image à Cloudinary-------------------------------------------------
-    //  const result = await cloudinary.uploader.upload(
-    //     convertToBase64(req.files.picture),
-    //     {
-    //       folder: `gamepad/users/${newUser._id}`,
-    //     }
-    //   );
-    //   newUser.picture = result;
+    const result = await cloudinary.uploader.upload(
+      convertToBase64(req.files.picture),
+      {
+        folder: `tmdb/users/${newUser._id}`,
+      }
+    );
+    newUser.picture = result;
     //----------------------------------------------------------
 
     //enregistrement du nouveau user en BDD
