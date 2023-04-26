@@ -21,7 +21,7 @@ router.get("/cast/:id", async (req, res) => {
   }
 });
 
-//first route to get last movies
+//first route to get last movies---------------------------------
 
 router.get("/cast/en/:id", async (req, res) => {
   const id = req.params.id;
@@ -39,6 +39,8 @@ router.get("/cast/en/:id", async (req, res) => {
     res.status(400).json(error.message);
   }
 });
+
+//------------------------------------------------------
 
 // route movie credits pour le personnage:
 
