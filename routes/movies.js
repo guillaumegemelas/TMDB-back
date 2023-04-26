@@ -4,7 +4,7 @@ const axios = require("axios");
 
 //first route to get last movies
 
-router.get("/", async (req, res) => {
+router.get("/home", async (req, res) => {
   const apiKey = process.env.YOUR_API_KEY;
   const { page } = req.query;
 

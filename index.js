@@ -25,9 +25,9 @@ cloudinary.config({
 //---------------------------------------------------------------------------------
 
 //route test: le serveur fonctionne!--------
-// app.get("/", (req, res) => {
-//   res.json({ message: "Hi" });
-// });
+app.get("/", (req, res) => {
+  res.json({ message: "Hi" });
+});
 
 //routes movie et movie par id fonctionnent
 //il va falloir ensuite faire un peu de css sur le front
