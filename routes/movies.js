@@ -6,7 +6,7 @@ const axios = require("axios");
 
 router.get("/home", async (req, res) => {
   const apiKey = process.env.YOUR_API_KEY;
-  const { page } = req.query;
+  let { page } = req.query;
 
   if (!page) {
     page = 1;
