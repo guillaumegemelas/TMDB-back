@@ -119,4 +119,19 @@ router.get("/user", async (req, res) => {
 });
 //--------------------------------------------------
 
+//Route3 en get récup infos sur le user: route fonctionne--------------
+
+router.get("/user/:id", async (req, res) => {
+  const id = req.params.id;
+  console.log(id);
+  try {
+    const user = await User.findOne({ _id: id });
+    res.json({ user: user });
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).json({ message: error.message });
+  }
+});
+//--------------------------------------------------
+
 module.exports = router;
