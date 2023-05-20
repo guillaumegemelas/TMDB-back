@@ -38,7 +38,6 @@ router.post("/addfavourites", isAuthenticated, async (req, res) => {
     //réponse
     res.status(200).json(clientResponse);
   } catch (error) {
-    console.log(error.message);
     res.status(400).json({ message: error.message });
   }
 });

@@ -15,6 +15,9 @@ const router = express.Router();
 const User = require("../models/User");
 const isAuthenticated = require("../middlewares/isAuthenticated");
 
+//import du modèle Favourites pour mise à jour du token pour les favoris
+const Favourite = require("../models/Favourites");
+
 //Route1 signup: fonctionne avec Postman
 router.post("/user/signup", fileUpload(), async (req, res) => {
   try {
@@ -179,6 +182,11 @@ router.put(
 
       //-----------------------------------------------
       //il va falloir gérer le changement du mot de passe avec confirmation
+      const favouritesToModify = await Favourite.find({
+        //findOne fonction ne mais ne renvoie qu'un seul favori: il faudra trouver poru en envoyer plusieurs avec find() mais erreur de réponse car tableau d'objet.. fonctionne bien avec findOne mais pas avec find()
+        token: userToModify.token,
+      });
+      console.log(favouritesToModify);
 
       //partie génération du token: générer un nouveau token?
       const token = uid2(64);
@@ -188,17 +196,26 @@ router.put(
       userToModify.token = token;
       userToModify.salt = salt;
       userToModify.hash = hash;
+      favouritesToModify.token = token;
+      //prochaine etape : implémenter en prod et vérifier si on peut ajouter le changement de mail
+
+      //la commande ci dessous envoie is not a function car je pense il y a un tableau d'objet
+      //et il faut enregistrer les elements independamment ou le tableau (voir dans la brochure mongoDB)
+      await favouritesToModify.save();
+      //on sauvegarde les favoris
 
       //à priori les hash, salt et token sont bien modifiés
       // à voir si on peut le recuperer dans le header? et si cela fonctionne avec
       //le token et le isauthenticated
 
-      //prochaine etape : implémenter en prod et vérifier si on peut ajouter le changement de mail
+      //il faut mettre à jour les favoris associés au compte: token et username
+      //rechercher les favoris associés au compte
 
       //en front il va falloir faire un formulaire avec mise à jour des infos et de l"image avec aperçu
 
-      //on sauvegarde l'offre
+      //on sauvegarde le user
       await userToModify.save();
+
       res.status(200).json("User modified succesfully");
     } catch (error) {
       res.status(400).json(error.message);
