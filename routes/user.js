@@ -13,6 +13,7 @@ const encBase64 = require("crypto-js/enc-base64");
 const router = express.Router();
 
 const User = require("../models/User");
+const isAuthenticated = require("../middlewares/isAuthenticated");
 
 //Route1 signup: fonctionne avec Postman
 router.post("/user/signup", fileUpload(), async (req, res) => {
@@ -119,7 +120,7 @@ router.get("/user", async (req, res) => {
 });
 //--------------------------------------------------
 
-//Route3 en get récup infos sur le user: route fonctionne--------------
+//Route4 en get récup infos sur le user: route fonctionne--------------
 
 router.get("/user/:id", async (req, res) => {
   const id = req.params.id;
@@ -133,5 +134,76 @@ router.get("/user/:id", async (req, res) => {
   }
 });
 //--------------------------------------------------
+
+//Route5 en put: update les infos du user--------------------
+
+router.put(
+  "/user/update/:id",
+  fileUpload(),
+  //dans Postman, il faudra mettre Authorization avec Berer token
+  isAuthenticated,
+  async (req, res) => {
+    const id = req.params.id;
+    console.log(id);
+    //on cherche le user à modifier
+    const userToModify = await User.findOne({ _id: id });
+    try {
+      //username-------------------------------------
+      if (req.body.username) {
+        userToModify.username = req.body.username;
+      }
+      //gérer le cas où le username existe déjà
+      const usernameAlreadyUsed = await User.findOne({
+        username: req.body.username,
+      });
+
+      if (usernameAlreadyUsed) {
+        return res
+          .status(409)
+          .json({ message: "This username is already used" });
+      }
+      //---------------------------------------------
+      //puis si on recoit une nouvelle photo
+      if (req.files?.picture) {
+        //on supprime l'ancienne
+        await cloudinary.uploader.destroy(userToModify.picture.public_id);
+      }
+      //et on upload la nouvelle
+      const result = await cloudinary.uploader.upload(
+        convertToBase64(req.files.picture),
+        {
+          folder: `tmdb/users/${userToModify._id}`,
+        }
+      );
+      userToModify.picture = result;
+
+      //-----------------------------------------------
+      //il va falloir gérer le changement du mot de passe avec confirmation
+
+      //partie génération du token: générer un nouveau token?
+      const token = uid2(64);
+      const salt = uid2(16);
+      const hash = SHA256(salt + req.body.password).toString(encBase64);
+
+      userToModify.token = token;
+      userToModify.salt = salt;
+      userToModify.hash = hash;
+
+      //à priori les hash, salt et token sont bien modifiés
+      // à voir si on peut le recuperer dans le header? et si cela fonctionne avec
+      //le token et le isauthenticated
+
+      //prochaine etape : implémenter en prod et vérifier si on peut ajouter le changement de mail
+
+      //en front il va falloir faire un formulaire avec mise à jour des infos et de l"image avec aperçu
+
+      //on sauvegarde l'offre
+      await userToModify.save();
+      res.status(200).json("User modified succesfully");
+    } catch (error) {
+      res.status(400).json(error.message);
+    }
+  }
+);
 
 module.exports = router;
