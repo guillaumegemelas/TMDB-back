@@ -181,12 +181,12 @@ router.put(
       userToModify.picture = result;
 
       //-----------------------------------------------
-      //il va falloir gérer le changement du mot de passe avec confirmation
-      const favouritesToModify = await Favourite.find({
-        //findOne fonction ne mais ne renvoie qu'un seul favori: il faudra trouver poru en envoyer plusieurs avec find() mais erreur de réponse car tableau d'objet.. fonctionne bien avec findOne mais pas avec find()
-        token: userToModify.token,
-      });
-      console.log(favouritesToModify);
+      // //il va falloir gérer le changement du mot de passe avec confirmation
+      // const favouritesToModify = await Favourite.find({
+      //findOne fonction ne mais ne renvoie qu'un seul favori: il faudra trouver poru en envoyer plusieurs avec find() mais erreur de réponse car tableau d'objet.. fonctionne bien avec findOne mais pas avec find()
+      //   token: userToModify.token,
+      // });
+      // console.log(favouritesToModify);
 
       //partie génération du token: générer un nouveau token?
       const token = uid2(64);
@@ -206,7 +206,7 @@ router.put(
       // console.log(favouritesToModify);
       //la commande ci dessous envoie is not a function car je pense il y a un tableau d'objet
       //et il faut enregistrer les elements independamment ou le tableau (voir dans la brochure mongoDB)
-      await favouritesToModify.save();
+      // await favouritesToModify.save();
       //on sauvegarde les favoris
 
       //à priori les hash, salt et token sont bien modifiés

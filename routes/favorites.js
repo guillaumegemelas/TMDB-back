@@ -36,6 +36,10 @@ router.post("/addfavourites", isAuthenticated, async (req, res) => {
     //user différents ne peuvent pas ajouter le meme favori car le nom existe deja en BDD)
     const newFavAlreadyAdded = await Favourite.findOne({ name, token });
 
+    //------voir si on met plutot le userId au lieu du token si il change avec la modif du profil--------------------
+    // const newFavAlreadyAdded = await Favourite.findOne({ name, userId });
+    //------------------------------------------------
+
     if (newFavAlreadyAdded) {
       return res.status(409).json({ message: "Favourite already added" });
     }
@@ -70,21 +74,23 @@ router.get(
   }
 );
 
-//route2 bis TEST pour récupérer les favoris en get: requete ok postman--------------------------
-// router.get(
-//   "/favourites/:id",
-//   //ajout isAuth pour authentification: ça fonctionne!
-//   isAuthenticated,
-//   async (req, res) => {
-//     try {
-//       const favourites = await Favourite.find();
-//       res.json({ favourites: favourites });
-//     } catch (error) {
-//       console.log(error.message);
-//       res.status(400).json({ message: error.message });
-//     }
-//   }
-// );
+//route2 bis TEST pour récupérer les favoris en get: requete ok postman: avantage: ne renvoie que les favoris reliés à l'Id du User: en front pas besoin de faire un token vérif--------------------------
+router.get(
+  "/favourites/:id",
+  //ajout isAuth pour authentification: ça fonctionne!
+  isAuthenticated,
+  async (req, res) => {
+    const id = req.params.id;
+    console.log(id);
+    try {
+      const favouritesbyId = await Favourite.find({ userId: id });
+      res.json({ favourites: favouritesbyId });
+    } catch (error) {
+      console.log(error.message);
+      res.status(400).json({ message: error.message });
+    }
+  }
+);
 
 //route3 pour supprimer des favoris+++++++++++++++++++++++++++++++++++++++++++++++++++
 router.delete("/favourites/delete/:id", isAuthenticated, async (req, res) => {
