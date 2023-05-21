@@ -70,6 +70,22 @@ router.get(
   }
 );
 
+//route2 bis TEST pour récupérer les favoris en get: requete ok postman--------------------------
+// router.get(
+//   "/favourites/:id",
+//   //ajout isAuth pour authentification: ça fonctionne!
+//   isAuthenticated,
+//   async (req, res) => {
+//     try {
+//       const favourites = await Favourite.find();
+//       res.json({ favourites: favourites });
+//     } catch (error) {
+//       console.log(error.message);
+//       res.status(400).json({ message: error.message });
+//     }
+//   }
+// );
+
 //route3 pour supprimer des favoris+++++++++++++++++++++++++++++++++++++++++++++++++++
 router.delete("/favourites/delete/:id", isAuthenticated, async (req, res) => {
   try {
