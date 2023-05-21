@@ -147,7 +147,7 @@ router.put(
   isAuthenticated,
   async (req, res) => {
     const id = req.params.id;
-    console.log(id);
+    // console.log(id);
     //on cherche le user à modifier
     const userToModify = await User.findOne({ _id: id });
     try {
@@ -196,9 +196,14 @@ router.put(
       userToModify.token = token;
       userToModify.salt = salt;
       userToModify.hash = hash;
-      favouritesToModify.token = token;
-      //prochaine etape : implémenter en prod et vérifier si on peut ajouter le changement de mail
 
+      // favouritesToModify.token = token;
+      // favouritesToModify.updateMany(
+      //   { token: userToModify.token },
+      //   { token: token }
+      // );
+      // //prochaine etape : implémenter en prod et vérifier si on peut ajouter le changement de mail
+      // console.log(favouritesToModify);
       //la commande ci dessous envoie is not a function car je pense il y a un tableau d'objet
       //et il faut enregistrer les elements independamment ou le tableau (voir dans la brochure mongoDB)
       await favouritesToModify.save();
@@ -212,6 +217,8 @@ router.put(
       //rechercher les favoris associés au compte
 
       //en front il va falloir faire un formulaire avec mise à jour des infos et de l"image avec aperçu
+
+      //-----------------------------------------------------------
 
       //on sauvegarde le user
       await userToModify.save();

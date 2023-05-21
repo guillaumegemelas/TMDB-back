@@ -6,17 +6,29 @@ const isAuthenticated = require("../middlewares/isAuthenticated");
 
 //import du modèle mongoose
 const Favourite = require("../models/Favourites");
+//-------import du modèle mongoose User pour récup et envoie Id lors de l'ajout d'un favoris(userId-----------------------------------
+const User = require("../models/User");
+//--------------------------------------
 
 //route 1 pour ajouter des favoris en post:-----------
 router.post("/addfavourites", isAuthenticated, async (req, res) => {
   try {
     const { image, name, token } = req.body;
 
+    //------------test recup user avec token--------------------------------
+    const userToPick = await User.findOne({ token: token });
+    let userId = userToPick._id;
+    console.log(userId);
+    //-------------fin test recup user token--------------------------------
+
     //declaration nouveau favori
     const newFavourite = new Favourite({
       name: name,
       image: image,
       token: token,
+      //--ajout de userId lors de addfavourites--------------------------------------------
+      userId: userToPick._id,
+      //----------------------------------------------
     });
 
     //vérification si le favori est déjà présent en base de données: avec token ET name
