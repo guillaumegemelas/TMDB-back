@@ -104,7 +104,7 @@ router.post("/user/login", async (req, res) => {
     if (newHash !== user.hash) {
       return res.status(401).json({ message: "Wrong password" });
     }
-    res.json({ _id: user._id, token: user.token });
+    res.json({ _id: user._id, token: user.token, username: user.username });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
