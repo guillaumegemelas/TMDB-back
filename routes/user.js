@@ -144,16 +144,24 @@ router.put(
   "/user/update/:id",
   fileUpload(),
   //dans Postman, il faudra mettre Authorization avec Berer token
-  isAuthenticated,
+  // isAuthenticated,
   async (req, res) => {
     const id = req.params.id;
     // console.log(id);
+    const { username, email, password, passwordConf } = req.body;
+    const { picture } = req.files.picture;
+
+    //si un parmaètre est manquant, message d'erreur
+    // if (!username || !email || !password) {
+    //   return res.status(400).json({ message: "Missing parameter" });
+    // }
+
     //on cherche le user à modifier
     const userToModify = await User.findOne({ _id: id });
     try {
       //username-------------------------------------
-      if (req.body.username) {
-        userToModify.username = req.body.username;
+      if (username) {
+        userToModify.username = username;
       }
       //gérer le cas où le username existe déjà
       const usernameAlreadyUsed = await User.findOne({
@@ -165,8 +173,19 @@ router.put(
           .status(409)
           .json({ message: "This username is already used" });
       }
+      if (email) {
+        userToModify.email = email;
+      }
+      const emailAlreadyUsed = await User.findOne({
+        email: req.body.email,
+      });
+      if (emailAlreadyUsed) {
+        return res
+          .status(409)
+          .json({ message: "This username is already used" });
+      }
       //test pour password et passwordconf qui doivent être identiques
-      if (req.body.password !== req.body.passwordConf) {
+      if (password !== passwordConf) {
         return res.status(409).json({ message: "Passwords are different" });
       }
       //---------------------------------------------
@@ -230,7 +249,6 @@ router.put(
       //envoi de la répon,se au front
       const response = {
         username: userToModify.username,
-        _id: userToModify._id,
         token: userToModify.token,
       };
 
