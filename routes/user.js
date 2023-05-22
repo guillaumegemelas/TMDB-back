@@ -149,7 +149,6 @@ router.put(
     const id = req.params.id;
     // console.log(id);
     const { username, email, password, passwordConf } = req.body;
-    const { picture } = req.files.picture;
 
     //si un parmaètre est manquant, message d'erreur
     // if (!username || !email || !password) {
