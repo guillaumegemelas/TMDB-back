@@ -144,7 +144,7 @@ router.put(
   "/user/update/:id",
   fileUpload(),
   //dans Postman, il faudra mettre Authorization avec Berer token
-  isAuthenticated,
+  // isAuthenticated,
   async (req, res) => {
     const id = req.params.id;
     // console.log(id);
