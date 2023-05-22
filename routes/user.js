@@ -143,8 +143,8 @@ router.get("/user/:id", async (req, res) => {
 router.put(
   "/user/update/:id",
   fileUpload(),
-  //dans Postman, il faudra mettre Authorization avec Berer token
-  // isAuthenticated,
+  //Pe,ser à mettre Authorization avec Berer token dans requete en put front
+  isAuthenticated,
   async (req, res) => {
     const id = req.params.id;
     // console.log(id);
@@ -189,7 +189,7 @@ router.put(
       }
       //---------------------------------------------
       //puis si on recoit une nouvelle photo
-      if (req.files?.picture) {
+      if (req.files.picture) {
         //on supprime l'ancienne
         await cloudinary.uploader.destroy(userToModify.picture.public_id);
       }
