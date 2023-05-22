@@ -165,6 +165,10 @@ router.put(
           .status(409)
           .json({ message: "This username is already used" });
       }
+      //test pour password et passwordconf qui doivent être identiques
+      if (req.body.password !== req.body.passwordConf) {
+        return res.status(409).json({ message: "Passwords are different" });
+      }
       //---------------------------------------------
       //puis si on recoit une nouvelle photo
       if (req.files?.picture) {
@@ -223,7 +227,15 @@ router.put(
       //on sauvegarde le user
       await userToModify.save();
 
-      res.status(200).json("User modified succesfully");
+      //envoi de la répon,se au front
+      const response = {
+        username: userToModify.username,
+        _id: userToModify._id,
+        token: userToModify.token,
+      };
+
+      //envoi de la réponse
+      res.status(200).json(response);
     } catch (error) {
       res.status(400).json(error.message);
     }
