@@ -236,4 +236,32 @@ router.put(
   }
 );
 
+router.delete("/user/delete/:id", isAuthenticated, async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    //gestion photo cloudinary
+
+    //gestion user en base de données
+    userToDelete = await User.findById(id);
+
+    //on reçoit bien l'id et il s'affiche bien le profil complet du user
+    console.log(userToDelete);
+    await userToDelete.deleteOne();
+    //c'est bon le compte s'effece bien
+
+    //gestion des favoris en base de données
+    // const favouritestoDelete = await Favourite.find({ userId: id });
+    console.log(id, "params id++++++++++++++++");
+    // méthode ci dessou fonctionne pour supprimer les favoris du profil supprimé
+    await Favourite.deleteMany({ userId: id });
+    //utilisation de deleteOne() car .delete() is not a function
+
+    // const favourites = await Favourite.find();
+    res.status(200).json("Profil deleted successfully !");
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 module.exports = router;
