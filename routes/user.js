@@ -204,41 +204,18 @@ router.put(
 
       //-----------------------------------------------
       // //il va falloir gérer le changement du mot de passe avec confirmation
-      // const favouritesToModify = await Favourite.find({
-      //findOne fonction ne mais ne renvoie qu'un seul favori: il faudra trouver poru en envoyer plusieurs avec find() mais erreur de réponse car tableau d'objet.. fonctionne bien avec findOne mais pas avec find()
-      //   token: userToModify.token,
-      // });
-      // console.log(favouritesToModify);
+      // si password reçu alors changement du token sinon on laisse le meme
 
+      if (password) {
+        const token = uid2(64);
+        const salt = uid2(16);
+        const hash = SHA256(salt + req.body.password).toString(encBase64);
+
+        userToModify.token = token;
+        userToModify.salt = salt;
+        userToModify.hash = hash;
+      }
       //partie génération du token: générer un nouveau token?
-      const token = uid2(64);
-      const salt = uid2(16);
-      const hash = SHA256(salt + req.body.password).toString(encBase64);
-
-      userToModify.token = token;
-      userToModify.salt = salt;
-      userToModify.hash = hash;
-
-      // favouritesToModify.token = token;
-      // favouritesToModify.updateMany(
-      //   { token: userToModify.token },
-      //   { token: token }
-      // );
-      // //prochaine etape : implémenter en prod et vérifier si on peut ajouter le changement de mail
-      // console.log(favouritesToModify);
-      //la commande ci dessous envoie is not a function car je pense il y a un tableau d'objet
-      //et il faut enregistrer les elements independamment ou le tableau (voir dans la brochure mongoDB)
-      // await favouritesToModify.save();
-      //on sauvegarde les favoris
-
-      //à priori les hash, salt et token sont bien modifiés
-      // à voir si on peut le recuperer dans le header? et si cela fonctionne avec
-      //le token et le isauthenticated
-
-      //il faut mettre à jour les favoris associés au compte: token et username
-      //rechercher les favoris associés au compte
-
-      //en front il va falloir faire un formulaire avec mise à jour des infos et de l"image avec aperçu
 
       //-----------------------------------------------------------
 
