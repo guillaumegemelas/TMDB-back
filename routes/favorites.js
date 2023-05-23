@@ -100,7 +100,7 @@ router.delete("/favourites/delete/:id", isAuthenticated, async (req, res) => {
     console.log(favToDelete, "favtodelete-----------------");
     await favToDelete.deleteOne();
     //utilisation de deleteOne() car .delete() is not a function
-    const favourites = await Favourite.find({ userId: id });
+    const favourites = await Favourite.find();
     res.json({ favourites: favourites });
   } catch (error) {
     console.log(error.message);
