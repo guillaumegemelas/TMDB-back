@@ -95,16 +95,16 @@ router.get(
 //route3 pour supprimer des favoris+++++++++++++++++++++++++++++++++++++++++++++++++++
 router.delete(
   "/favourites/delete/:id/:userId",
-  // isAuthenticated,
+  isAuthenticated,
   async (req, res) => {
     try {
       favToDelete = await Favourite.findById(req.params.id);
       //test-------------------
-      const userToFindId = await User.findById(req.params.userId);
+      const userToFindId = req.params.userId;
       //-----------------------
       console.log(req.params.id, "params id++++++++++++++++");
       console.log(req.params.userId, "params id++++++++++++++++");
-      console.log(favToDelete, "favtodelete-----------------");
+
       await favToDelete.deleteOne();
       //utilisation de deleteOne() car .delete() is not a function
       const favourites = await Favourite.find({ userId: userToFindId });
